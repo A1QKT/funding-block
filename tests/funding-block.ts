@@ -1,10 +1,11 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { FundingBlock } from "../target/types/funding_block";
-import { Keypair, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Keypair, PublicKey, LAMPORTS_PER_SOL, Connection } from "@solana/web3.js";
 import { expect } from "chai";
 
 describe("funding-block", () => {
+  // const connection = Connection()
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -19,7 +20,7 @@ describe("funding-block", () => {
       [
         Buffer.from("investor_quest"),
         provider.wallet.publicKey.toBuffer(),
-        Buffer.from("id_2"),
+        // Buffer.from("id_2"),
       ],
       program.programId
     );
@@ -33,9 +34,9 @@ describe("funding-block", () => {
       .createQuest(name, "id_2")
       .accounts({
         questAccount: questKeyPair.publicKey,
-        investorQuest: investorPDA,
+        investorQuest: investorPDA, // 
         user: provider.wallet.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        // systemProgram: anchor.web3.SystemProgram.programId,
       })
       .signers([questKeyPair])
       .rpc();

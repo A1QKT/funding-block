@@ -1,21 +1,29 @@
-use std::time;
+use anchor_lang::{
+    prelude::*, 
+    solana_program::{
+        program::invoke,
+        clock,
+        system_instruction
+    }
+};
 
-use anchor_lang::{prelude::*, solana_program::clock};
 use crate::state::quest::*;
 use crate::errors::FundingBlockError;
 
 pub fn create_quest (
-        ctx: Context<CreateQuest>, 
+        ctx: Context<CreateQuest>,
         name: String,
         fund_amount: u64,
-        time_end: u64
-    ) -> Result<()> {    
+        time_end: u64,
+        quest_id: u8,
+    ) -> Result<()> {
     if name.as_bytes().len() > 200 || fund_amount < Quest::MIN_FUND {
         return err!(FundingBlockError::InvalidLength);
     }
     
     let quest_account = &mut ctx.accounts.quest_account;
     let time_start: i64 = clock::Clock::get()?.unix_timestamp.try_into().unwrap();
+    quest_account.quest_id = quest_id;
     quest_account.time_start = time_start as u64;
     quest_account.title = name;
     quest_account.num_investor = 1;
@@ -24,7 +32,7 @@ pub fn create_quest (
     quest_account.fund = fund_amount;
     quest_account.time_end = time_end;
 
-        
+
     let member_state = &mut ctx.accounts.member_state;
     member_state.quest_address = quest_account.key();
     member_state.fund = fund_amount;
@@ -36,17 +44,30 @@ pub fn create_quest (
 }
 
 #[derive(Accounts)]
-#[instruction(name: String, quest_id: String)]
+#[instruction(
+    name: String,
+    fund_amount: u64,
+    time_end: u64,
+    quest_id: u8,)]
 pub struct CreateQuest<'info> {
-    #[account(init, payer = user, space = Quest::MAX_SIZE + 8)]
+    #[account(
+        init, 
+        payer = user, 
+        seeds = [
+            b"account_quest",
+            user.key().as_ref(),
+            &[quest_id]
+        ],
+        bump,
+        space = Quest::MAX_SIZE + 8)]
     pub quest_account: Account<'info, Quest>,
     #[account(
         init,
         payer = user,
         seeds = [
-            b"investor_quest",
+            b"member_quest",
             user.key().as_ref(), 
-            quest_id.as_ref()
+            quest_account.key().as_ref()
         ],
         bump,
         space = 32 + 8 + 1 + 8)]

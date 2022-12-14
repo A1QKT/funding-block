@@ -22,14 +22,15 @@ pub fn join_quest_solver(ctx: Context<JoinQuest>) -> Result<()>{
 
 pub fn join_quest_investor(ctx: Context<JoinQuest>, fund: u64) -> Result<()> {
     let quest_account = &mut ctx.accounts.quest_account;
-    let quest_account = &mut ctx.accounts.quest_account;
+    let member_state = &mut ctx.accounts.member_state;
+
     if quest_account.is_voting {
         return err!(FundingBlockError::ProcessingVoting);
     }
+    
     quest_account.num_investor = quest_account.num_investor + 1;
     quest_account.fund = quest_account.fund + fund;
 
-    let member_state = &mut ctx.accounts.member_state;
     member_state.quest_address = quest_account.key();
     member_state.fund = fund;
     member_state.trigger_voting = false;

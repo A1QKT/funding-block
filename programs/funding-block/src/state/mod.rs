@@ -1,7 +1,5 @@
 pub use quest::*;
-pub use room::*;
-pub use vote::*;
+pub use solution::*;
 
 pub mod quest;
-pub mod room;
-pub mod vote;
+pub mod solution;
