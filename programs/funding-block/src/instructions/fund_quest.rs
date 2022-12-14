@@ -3,6 +3,8 @@ use crate::errors::FundingBlockError;
 
 use crate::state::quest::*;
 
+use super::transfer_rewarding::Pool;
+
 pub fn fund_quest(ctx: Context<FundQuest>, fund: u64) -> Result<()> {
     let quest_account = &mut ctx.accounts.quest_account;
     let user = &mut ctx.accounts.user;
@@ -16,6 +18,7 @@ pub fn fund_quest(ctx: Context<FundQuest>, fund: u64) -> Result<()> {
 pub struct FundQuest<'info> {
     #[account(mut)]
     pub quest_account: Account<'info, Quest>,
+
     #[account(
         seeds = [
             b"funder_state",
@@ -23,7 +26,15 @@ pub struct FundQuest<'info> {
         ],
         bump
     )]
-    pub fun_state: Account<'info, FunderState>,
+    pub funder_state: Account<'info, FunderState>,
+
+    #[account(
+        mut,
+        seeds = [],
+        bump
+    )]
+    pool: Account<'info, Pool>,
+
     #[account(mut)]
     user: Signer<'info>,
     system_program: Program<'info, System>

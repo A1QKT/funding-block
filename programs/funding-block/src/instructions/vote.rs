@@ -1,9 +1,9 @@
-use anchor_lang::{prelude::*, solana_program::clock};
+use anchor_lang::prelude::*;
 
-use crate::state::quest::*;
+use crate::state::{Quest, FunderState ,Solution};
 use crate::errors::FundingBlockError;
 
-pub fn vote(ctx: Context<Vote>, vote_up: bool) -> Result<()> {
+pub fn vote(ctx: Context<Vote>, solution_address: Pubkey) -> Result<()> {
     
     Ok(())
 }
@@ -12,13 +12,21 @@ pub fn vote(ctx: Context<Vote>, vote_up: bool) -> Result<()> {
 pub struct Vote<'info> {
     #[account(mut)]
     quest_account: Account<'info, Quest>,
-    #[account(mut)]
-    investor_account: Account<'info, MemberState>
-}
+  
+    #[account(
+        mut, 
+        seeds = [],
+        bump
+    )]
+    funder_state: Account<'info, FunderState>,
 
-#[event]
-pub struct EventTrigger {
-    trigger_address: Pubkey,
-    quest_address: Pubkey   
+    #[account(
+        mut,
+        seeds = [],
+        bump
+    )]
+    solution_account: Account<'info, Solution>,
+
+    user: Signer<'info>
 }
 
