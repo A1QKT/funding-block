@@ -4,8 +4,6 @@ use crate::state::*;
 
 pub fn create_solution(
     ctx: Context<CreateSolution>,
-    quest_address: Pubkey, 
-    user_address: Pubkey, 
     content: String, 
     image_link: String) -> Result<()>{
     Ok(())
@@ -20,13 +18,15 @@ pub struct CreateSolution<'info> {
         init,
         payer = user,
         seeds = [
-
+            b"solution",
+            user.key().as_ref(),
+            quest_account.key().as_ref()
         ],
         bump,
         space = 32 + 32 + 400 + 8 + 200 + 8
     )]
     solution_account: Account<'info, Solution>,
-    
+
     #[account(mut)]
     user: Signer<'info>,
     system_program: Program<'info, System>

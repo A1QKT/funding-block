@@ -1,9 +1,8 @@
 use anchor_lang::prelude::*;
+use anchor_spl::token::TokenAccount;
 use crate::errors::FundingBlockError;
 
 use crate::state::quest::*;
-
-use super::transfer_rewarding::Pool;
 
 pub fn fund_quest(ctx: Context<FundQuest>, fund: u64) -> Result<()> {
     let quest_account = &mut ctx.accounts.quest_account;
@@ -28,14 +27,14 @@ pub struct FundQuest<'info> {
     )]
     pub funder_state: Account<'info, FunderState>,
 
-    #[account(
-        mut,
-        seeds = [],
-        bump
-    )]
-    pool: Account<'info, Pool>,
+    #[account(mut)]
+    program_wallet: Account<'info, TokenAccount>,
+
+    #[account(mut)]
+    user_token: Account<'info, TokenAccount>,
 
     #[account(mut)]
     user: Signer<'info>,
+
     system_program: Program<'info, System>
 }

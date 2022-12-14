@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 use crate::state::{Quest, FunderState ,Solution};
 use crate::errors::FundingBlockError;
 
-pub fn vote(ctx: Context<Vote>, solution_address: Pubkey) -> Result<()> {
+pub fn vote(ctx: Context<Vote>) -> Result<()> {
     
     Ok(())
 }

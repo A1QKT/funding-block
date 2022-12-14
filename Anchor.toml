@@ -1,13 +1,14 @@
 [features]
 seeds = false
-[programs.localnet]
+
+[programs.devnet]
 funding_block = "Gfaf2UDB7aYzbBcZGHtAzyR3BtMubkm5EBhxGdzgwcs"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/macintosh/.config/solana/id.json"
 
 [scripts]
