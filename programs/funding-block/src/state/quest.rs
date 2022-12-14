@@ -17,10 +17,9 @@ impl Quest {
 }
 
 #[account]
-pub struct MemberState {
-    pub quest_address: Pubkey,
-    pub fund: u64,
-    pub trigger_voting: bool,
-    pub is_investor: bool,
-    pub bump: u8,
+pub struct FunderState {
+    pub quest_address: Pubkey, // 32
+    pub fund: u64, // 8
+    pub vote: bool, // 1
+    pub bump: u8, // 1
 }

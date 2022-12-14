@@ -23,31 +23,15 @@ pub mod funding_block {
         instructions::create_quest(ctx, name,fund_amount, time_end, quest_id)
     }
 
-    pub fn join_quest_investor(ctx: Context<JoinQuest>, fund: u64) -> Result<()> {
-        instructions::join_quest_investor(ctx, fund)
-    }
-
-    pub fn join_quest_solver(ctx: Context<JoinQuest>, quest_id: String) -> Result<()> {
-        instructions::join_quest_solver(ctx)
-    }
-
-    pub fn trigger_voting(ctx: Context<TriggerVoting>, time_voting_end: u64) -> Result<()> {
-        instructions::trigger_voting(ctx, time_voting_end)
-    }
+    pub fn fund_quest_(ctx: Context<FundQuest>, fund: u64) -> Result<()> {
+        instructions::fund_quest(ctx, fund)
+    }   
 
     pub fn vote(ctx: Context<Vote>, vote_up: bool) -> Result<()> {
         instructions::vote(ctx, vote_up)
     }
 
-    pub fn donate(ctx: Context<Donate>, amount: u64) -> Result<()> {
-        instructions::donate(ctx, amount)
-    }
-
-    pub fn execute_rewarding(ctx: Context<Reward>) -> Result<()> {
+    pub fn transfer_rewarding(ctx: Context<Reward>) -> Result<()> {
         instructions::execute_rewarding(ctx)
-    }
-
-    pub fn clean_pda(ctx: Context<CleanPDA>) -> Result<()> {
-        instructions::clean_pda(ctx)
     }
 }
