@@ -50,6 +50,10 @@ pub mod funding_block {
         instructions::vote(ctx)
     }
 
+    pub fn un_vote(ctx: Context<Vote>) -> Result<()> {
+        instructions::un_vote(ctx)
+    }
+
     pub fn transfer_rewarding(
         ctx: Context<TransferBack>,
         fund_amount: u64,
@@ -58,9 +62,9 @@ pub mod funding_block {
         instructions::transfer_rewarding(ctx, fund_amount, close_status)
     }
 
-    // pub fn close_quest(ctx: Context<CloseQuest>) -> Result<()> {
-    //     instructions::close_quest(ctx)
-    // }
+    pub fn close_quest(ctx: Context<CloseQuest>) -> Result<()> {
+        instructions::close_quest(ctx)
+    }
 
     pub fn send_fund_back(ctx: Context<TransferBack>, fund_amount: u64) -> Result<()> {
         instructions::send_fund_back(ctx, fund_amount)
