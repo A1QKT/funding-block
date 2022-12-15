@@ -5,10 +5,14 @@ use crate::errors::FundingBlockError;
 
 
 pub fn vote(ctx: Context<Vote>) -> Result<()> {
-    // let quest_account = &mut ctx.accounts.quest_account;
+    let quest_account = &mut ctx.accounts.quest_account;
     let fund_state = &mut ctx.accounts.funder_state;
     let solution_account = &mut ctx.accounts.solution_account;
 
+    if quest_account.closed != String::from("FALSE") {
+        return err!(FundingBlockError::InvalidTimeStamp)
+    }
+ 
     if fund_state.vote {
         return err!(FundingBlockError::FunderVoted)
     }

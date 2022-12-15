@@ -6,7 +6,7 @@ pub enum FundingBlockError {
     EndedQuest,
     #[msg("QUEST.INVALID_LENGTH")]
     InvalidLength,
-    #[msg("VOTING.INVALID_TIMESTAMP")]
+    #[msg("QUEST.INVALID_TIME_STAMP")]
     InvalidTimeStamp,
     #[msg("TRANSFER.TRANSFER_FAIL")]
     TransferFail,

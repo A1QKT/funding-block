@@ -18,6 +18,10 @@ pub fn fund_quest(ctx: Context<FundQuest>, fund_amount: u64) -> Result<()> {
 
     let token_program = &ctx.accounts.token_program;
 
+    if quest_account.closed == String::from("TRUE") || quest_account.closed == String::from("PARTIAL") {
+        return err!(FundingBlockError::InvalidTimeStamp)
+    }
+
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
             Transfer {
@@ -45,6 +49,10 @@ pub fn join_fund(ctx: Context<JoinFund>, fund_amount: u64) -> Result<()> {
     let program_wallet = &mut ctx.accounts.program_wallet;
 
     let token_program = &ctx.accounts.token_program;
+
+    if quest_account.closed == String::from("TRUE") || quest_account.closed == String::from("PARTIAL") {
+        return err!(FundingBlockError::InvalidTimeStamp)
+    }
  
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
@@ -59,6 +67,7 @@ pub fn join_fund(ctx: Context<JoinFund>, fund_amount: u64) -> Result<()> {
     };
 
     quest_account.fund = quest_account.fund + fund_amount;
+    quest_account.num_funder = quest_account.num_funder + 1;
 
     funder_state.quest_address = quest_account.key();
     funder_state.fund = fund_amount;
