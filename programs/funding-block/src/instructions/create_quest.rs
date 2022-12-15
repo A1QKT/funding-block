@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
-    token::{Token, Mint, TokenAccount, transfer, Transfer}
+    token::{Token, TokenAccount, transfer, Transfer}
 };
 
 use crate::state::{Quest, FunderState};
@@ -13,7 +13,7 @@ pub fn create_quest (
         fund_amount: u64,
         time_end: u64,
     ) -> Result<()> {
-    msg!("con cac");
+        msg!("dm");
     if title.as_bytes().len() > 200 || fund_amount < Quest::MIN_FUND {
         return err!(FundingBlockError::InvalidLength);
     }
@@ -23,8 +23,16 @@ pub fn create_quest (
     let user = &mut ctx.accounts.user;
     let user_token = &mut ctx.accounts.user_token;
     let program_wallet = &mut ctx.accounts.program_wallet;
+
     let token_program = &ctx.accounts.token_program;
     
+    if user_token.key() == program_wallet.key() {
+        msg!("Giong")
+    }
+    else {
+        msg!("Deo")
+    }
+ 
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
             Transfer {
@@ -56,8 +64,8 @@ pub fn create_quest (
 #[derive(Accounts)]
 pub struct CreateQuest<'info> {
     #[account(
-        init, 
-        payer = user, 
+        init,
+        payer = user,
         space = Quest::MAX_SIZE + 8
     )]
     pub quest_account: Account<'info, Quest>,
@@ -67,11 +75,11 @@ pub struct CreateQuest<'info> {
         payer = user,
         seeds = [
             b"funder_state",
-            user.key().as_ref(), 
+            user.key().as_ref(),
             &quest_account.key().to_bytes(),
         ],
         bump,
-        space = 32 + 8 + 8
+        space = 32 + 8 + 1 + 8
     )]
     pub funder_state: Account<'info, FunderState>,
 
@@ -84,7 +92,6 @@ pub struct CreateQuest<'info> {
     #[account(mut)]
     pub user_token: Account<'info, TokenAccount>,
 
-    pub mint_account: Account<'info, Mint>,
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,

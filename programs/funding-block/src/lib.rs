@@ -6,7 +6,7 @@ pub mod instructions;
 pub mod state;
 pub mod errors;
 
-declare_id!("Gfaf2UDB7aYzbBcZGHtAzyR3BtMubkm5EBhxGdzgwcs");
+declare_id!("9RgWo49pJ9pD24QkBMFTJ1J6RQdHbLoTa4J65V3n8eKm");
 
 #[program]
 pub mod funding_block {

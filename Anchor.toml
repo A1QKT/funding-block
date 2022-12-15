@@ -2,7 +2,7 @@
 seeds = false
 
 [programs.devnet]
-funding_block = "Gfaf2UDB7aYzbBcZGHtAzyR3BtMubkm5EBhxGdzgwcs"
+funding_block = "9RgWo49pJ9pD24QkBMFTJ1J6RQdHbLoTa4J65V3n8eKm"
 
 [registry]
 url = "https://anchor.projectserum.com"
