@@ -10,7 +10,6 @@ declare_id!("9RgWo49pJ9pD24QkBMFTJ1J6RQdHbLoTa4J65V3n8eKm");
 
 #[program]
 pub mod funding_block {
-
     use super::*;
 
     pub fn create_quest(
@@ -39,15 +38,31 @@ pub mod funding_block {
         )
     }
 
-    pub fn fund_quest(ctx: Context<FundQuest>, fund: u64) -> Result<()> {
-        instructions::fund_quest(ctx, fund)
+    pub fn fund_quest(ctx: Context<FundQuest>, fund_amount: u64) -> Result<()> {
+        instructions::fund_quest(ctx, fund_amount)
+    }
+
+    pub fn join_fund(ctx: Context<JoinFund>, fund_amount: u64) -> Result<()> {
+        instructions::join_fund(ctx, fund_amount)
     }
 
     pub fn vote(ctx: Context<Vote>) -> Result<()> {
         instructions::vote(ctx)
     }
 
-    pub fn transfer_rewarding(ctx: Context<TransferRewarding>) -> Result<()> {
-        instructions::transfer_rewarding(ctx)
+    pub fn transfer_rewarding(
+        ctx: Context<TransferBack>,
+        fund_amount: u64,
+        close_status: String
+    ) -> Result<()> {
+        instructions::transfer_rewarding(ctx, fund_amount, close_status)
+    }
+
+    // pub fn close_quest(ctx: Context<CloseQuest>) -> Result<()> {
+    //     instructions::close_quest(ctx)
+    // }
+
+    pub fn send_fund_back(ctx: Context<TransferBack>, fund_amount: u64) -> Result<()> {
+        instructions::send_fund_back(ctx, fund_amount)
     }
 }

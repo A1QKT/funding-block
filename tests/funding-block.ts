@@ -17,6 +17,12 @@ describe("funding-block", () => {
   setProvider(provider);
   const program = workspace.FundingBlock as Program<FundingBlock>;
   const spl = Spl.token();
+  let accountAddress;
+  let solutionAddress;
+
+  const programId = new web3.PublicKey(
+    "9RgWo49pJ9pD24QkBMFTJ1J6RQdHbLoTa4J65V3n8eKm"
+  );
 
   it("Created Quest", async () => {
     //Token Mint address
@@ -28,10 +34,6 @@ describe("funding-block", () => {
     //Huynh token
     const mint = new web3.PublicKey(
       "prjctRCEC7Pu5ryxvpW7Z5EfdbJN7puFfMcXdgheRGc"
-    );
-
-    const programId = new web3.PublicKey(
-      "9RgWo49pJ9pD24QkBMFTJ1J6RQdHbLoTa4J65V3n8eKm"
     );
 
     // Phantom wallet
@@ -107,9 +109,43 @@ describe("funding-block", () => {
       .rpc();
 
     console.log(`tx: ${tx}, quest: ${questAccount.publicKey}`);
+    accountAddress = questAccount.publicKey;
+
     const questAccountData = await program.account.quest.fetch(
       questAccount.publicKey
     );
     console.log(`con cac: ${questAccountData.title}`);
+  });
+
+  it("Create Solution", async () => {
+    const questAccount = new web3.PublicKey(accountAddress);
+
+    const [solutionAccount, bump] = await web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from("solution_account"),
+        provider.wallet.publicKey.toBuffer(),
+        questAccount.toBuffer(),
+      ],
+      programId
+    );
+
+    const tx = await program.methods
+      .createSolution("cmm beo", "link ne")
+      .accounts({
+        questAccount: questAccount,
+        solutionAccount: solutionAccount,
+        user: provider.wallet.publicKey,
+        systemProgram: web3.SystemProgram.programId,
+      })
+      .signers([])
+      .rpc();
+
+    console.log(`tx: ${tx}, quest: ${solutionAccount}`);
+    solutionAddress = solutionAccount;
+
+    const solutionAccountData = await program.account.solution.fetch(
+      solutionAccount
+    );
+    console.log(`con cac: ${solutionAccountData.content}`);
   });
 });

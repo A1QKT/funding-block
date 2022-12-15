@@ -13,7 +13,6 @@ pub fn create_quest (
         fund_amount: u64,
         time_end: u64,
     ) -> Result<()> {
-        msg!("dm");
     if title.as_bytes().len() > 200 || fund_amount < Quest::MIN_FUND {
         return err!(FundingBlockError::InvalidLength);
     }
@@ -26,12 +25,12 @@ pub fn create_quest (
 
     let token_program = &ctx.accounts.token_program;
     
-    if user_token.key() == program_wallet.key() {
-        msg!("Giong")
-    }
-    else {
-        msg!("Deo")
-    }
+    // if user_token.key() == program_wallet.key() {
+    //     msg!("Giong")
+    // }
+    // else {
+    //     msg!("Deo")
+    // }
  
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
@@ -50,7 +49,7 @@ pub fn create_quest (
     quest_account.num_funder = 1;
     quest_account.num_solver = 0;
     quest_account.fund = fund_amount;
-    quest_account.closed = false;
+    quest_account.closed = String::from("FALSE");
 
     funder_state.quest_address = quest_account.key();
     funder_state.fund = fund_amount;

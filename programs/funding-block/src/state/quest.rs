@@ -8,12 +8,12 @@ pub struct Quest {
     pub num_funder: u64,
     pub num_solver: u64,
     pub fund: u64,
-    pub closed: bool
+    pub closed: String // "TRUE" | "FALSE" | "PARTIAL"
 }
 
 impl Quest {
     pub const MIN_FUND: u64 = 1;
-    pub const MAX_SIZE: usize = 200 + 8 + 8 + 8 + 8 + 1 + 8;
+    pub const MAX_SIZE: usize = 200 + 8 + 8 + 8 + 8 + 7 + 8;
 }
 
 #[account]
