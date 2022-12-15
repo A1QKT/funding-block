@@ -10,7 +10,6 @@ import {
 } from "@project-serum/anchor";
 import { FundingBlock } from "../target/types/funding_block";
 import { initializeAccount } from "./utils";
-import * as bs58 from "bs58";
 
 describe("funding-block", async () => {
   const provider = AnchorProvider.env();
@@ -189,18 +188,79 @@ describe("funding-block", async () => {
   });
 
   it("Join Fund", async () => {
+    // Test In Front End
+  });
+
+  it("Vote", async () => {
+    // Test In Front End
+  });
+
+  it("UnVote", async () => {
+    // Test In Front End
+  });
+
+  //Do in backend wiht signature
+  it("Transfer Rewarding", async () => {
+    const amount = "1";
+    const closeStatus = "TRUE";
+
     const questAccount = new web3.PublicKey(
       "AqBHXiKHaqgjZGTBJpoiXen77vWmEFEpy2wzxiYbkZtX"
     );
+
+    const tx = await program.methods
+      .transferRewarding(new BN(amount), closeStatus)
+      .accounts({
+        questAccount: questAccount,
+        programWallet: programWalletToken,
+        user: provider.wallet.publicKey,
+        userToken,
+        systemProgram: web3.SystemProgram.programId,
+        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+      })
+      .signers([])
+      .rpc();
   });
 
-  it("Vote", async () => {});
+  it("Close Quest", async () => {
+    const questAccount = new web3.PublicKey(
+      "AqBHXiKHaqgjZGTBJpoiXen77vWmEFEpy2wzxiYbkZtX"
+    );
 
-  it("UnVote", async () => {});
+    const tx = await program.methods
+      .closeQuest()
+      .accounts({
+        questAccount: questAccount,
+      })
+      .signers([])
+      .rpc();
+  });
 
-  it("Transfer Rewarding", async () => {});
+  //Do in backend with signature
+  it("Send Fund Back", async () => {
+    const amount = "1";
+    const closeStatus = "TRUE";
 
-  it("Close Quest", async () => {});
+    const questAccount = new web3.PublicKey(
+      "AqBHXiKHaqgjZGTBJpoiXen77vWmEFEpy2wzxiYbkZtX"
+    );
 
-  it("Send Fund Back", async () => {});
+    const tx = await program.methods
+
+      .sendFundBack(new BN(amount))
+      .accounts({
+        questAccount: questAccount,
+        programWallet: programWalletToken,
+        user: provider.wallet.publicKey,
+        userToken,
+        systemProgram: web3.SystemProgram.programId,
+        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+      })
+      .signers([])
+      .rpc();
+  });
 });

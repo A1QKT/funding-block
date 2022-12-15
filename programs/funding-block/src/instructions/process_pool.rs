@@ -14,18 +14,18 @@ pub fn transfer_rewarding(
 ) -> Result<()> {
     let quest_account = &mut ctx.accounts.quest_account;
     
-    let user = &mut ctx.accounts.user;
-    let user_token = &mut ctx.accounts.user_token;
-    let program_wallet = &mut ctx.accounts.program_wallet;
+    let wallet = &mut ctx.accounts.wallet;
+    let wallet_token = &mut ctx.accounts.wallet_token;
+    let user_wallet = &mut ctx.accounts.user_wallet;
 
     let token_program = &ctx.accounts.token_program;
  
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
             Transfer {
-                from: program_wallet.to_account_info(),
-                to: user_token.to_account_info(),
-                authority: user.to_account_info(),
+                from: wallet_token.to_account_info(),
+                to: user_wallet.to_account_info(),
+                authority: wallet.to_account_info(),
             },
         ), fund_amount) {
         Ok(()) => Ok(()),
@@ -54,18 +54,18 @@ pub fn send_fund_back(ctx: Context<TransferBack>, fund_amount: u64) -> Result<()
         return err!(FundingBlockError::InvalidTransferBack)
     }
     
-    let user = &mut ctx.accounts.user;
-    let user_token = &mut ctx.accounts.user_token;
-    let program_wallet = &mut ctx.accounts.program_wallet;
+    let wallet = &mut ctx.accounts.wallet;
+    let wallet_token = &mut ctx.accounts.wallet_token;
+    let user_wallet = &mut ctx.accounts.user_wallet;
 
     let token_program = &ctx.accounts.token_program;
  
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
             Transfer {
-                from: program_wallet.to_account_info(),
-                to: user_token.to_account_info(),
-                authority: user.to_account_info(),
+                from: wallet_token.to_account_info(),
+                to: user_wallet.to_account_info(),
+                authority: wallet.to_account_info(),
             },
         ), fund_amount) {
         Ok(()) => Ok(()),
@@ -85,13 +85,13 @@ pub struct TransferBack<'info>{
     pub quest_account: Account<'info, Quest>,
 
     #[account(mut)]
-    program_wallet: Account<'info, TokenAccount>,
+    user_wallet: Account<'info, TokenAccount>,
 
     #[account(mut)]
-    pub user: Signer<'info>,
+    pub wallet: Signer<'info>,
 
     #[account(mut)]
-    pub user_token: Account<'info, TokenAccount>,
+    pub wallet_token: Account<'info, TokenAccount>,
 
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
