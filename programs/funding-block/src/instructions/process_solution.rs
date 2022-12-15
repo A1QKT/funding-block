@@ -18,12 +18,49 @@ pub fn create_solution(
 
     quest_account.num_solver = quest_account.num_solver + 1;
 
+    solution_account.content = content;
     solution_account.quest_address = quest_account.key();
     solution_account.user_address = user.key();
     solution_account.num_vote = 0;
     solution_account.image_link = image_link;
 
     Ok(())
+}
+
+pub fn update_solution (
+    ctx: Context<UpdateSolution>, 
+    content: String,
+    image_link: String
+) -> Result<()> {
+    let solution_account = &mut ctx.accounts.solution_account;
+    if content != solution_account.content {
+        solution_account.content = content;
+    }
+
+    if image_link != solution_account.image_link {
+        solution_account.image_link = image_link;
+    }
+    Ok(())
+}
+
+#[derive(Accounts)]
+pub struct UpdateSolution<'info> {
+    #[account(mut)]
+    quest_account: Account<'info, Quest>,
+
+    #[account(
+        mut,
+        seeds = [
+            b"solution_account",
+            user.key().as_ref(),
+            &quest_account.key().to_bytes()
+        ],
+        bump,
+    )]
+    solution_account: Account<'info, Solution>,
+
+    #[account(mut)]
+    user: Signer<'info>,
 }
 
 #[derive(Accounts)]
@@ -37,7 +74,7 @@ pub struct CreateSolution<'info> {
         seeds = [
             b"solution_account",
             user.key().as_ref(),
-            quest_account.key().as_ref()
+            &quest_account.key().to_bytes()
         ],
         bump,
         space = 32 + 32 + 400 + 8 + 200 + 8

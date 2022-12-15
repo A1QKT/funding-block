@@ -3,7 +3,6 @@ use anchor_lang::prelude::*;
 #[account]
 pub struct Quest {
     pub title: String,
-    // pub time_start: u64,
     pub time_end: u64,
     pub num_funder: u64,
     pub num_solver: u64,

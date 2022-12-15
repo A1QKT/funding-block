@@ -38,6 +38,14 @@ pub mod funding_block {
         )
     }
 
+    pub fn update_solution (
+        ctx: Context<UpdateSolution>,
+        content: String,
+        image_link: String
+    ) -> Result<()> {
+        instructions::update_solution(ctx, content, image_link)
+    }
+
     pub fn fund_quest(ctx: Context<FundQuest>, fund_amount: u64) -> Result<()> {
         instructions::fund_quest(ctx, fund_amount)
     }
