@@ -39,115 +39,115 @@ describe("funding-block", async () => {
     owner: provider.wallet.publicKey,
   });
 
-  // it("Created Quest", async () => {
-  //   //Huynh token
+  it("Created Quest", async () => {
+    //Huynh token
 
-  //   // await initializeAccount(
-  //   //   userToken,
-  //   //   mint,
-  //   //   provider.wallet.publicKey,
-  //   //   provider
-  //   // );
-  //   console.log(`client wallet: ${userToken}`);
-  //   console.log(`progam wallet: ${programWallet}`);
+    // await initializeAccount(
+    //   userToken,
+    //   mint,
+    //   provider.wallet.publicKey,
+    //   provider
+    // );
+    console.log(`client wallet: ${userToken}`);
+    console.log(`progam wallet: ${programWallet}`);
 
-  //   const questAccount = web3.Keypair.generate();
+    const questAccount = web3.Keypair.generate();
 
-  //   const [funderState, bump] = await web3.PublicKey.findProgramAddress(
-  //     [
-  //       Buffer.from("funder_state"),
-  //       provider.wallet.publicKey.toBuffer(),
-  //       questAccount.publicKey.toBuffer(),
-  //     ],
-  //     programId
-  //   );
+    const [funderState, bump] = await web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from("funder_state"),
+        provider.wallet.publicKey.toBuffer(),
+        questAccount.publicKey.toBuffer(),
+      ],
+      programId
+    );
 
-  //   const tx = await program.methods
-  //     .createQuest("con cac", new BN("1"), new BN("1671123600"))
-  //     .accounts({
-  //       questAccount: questAccount.publicKey,
-  //       funderState: funderState,
-  //       programWallet: programWalletToken,
-  //       user: provider.wallet.publicKey,
-  //       userToken,
-  //       systemProgram: web3.SystemProgram.programId,
-  //       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-  //       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-  //       rent: web3.SYSVAR_RENT_PUBKEY,
-  //     })
-  //     .signers([questAccount])
-  //     .rpc();
+    const tx = await program.methods
+      .createQuest("con cac", new BN("1"), new BN("1671123600"))
+      .accounts({
+        questAccount: questAccount.publicKey,
+        funderState: funderState,
+        programWallet: programWalletToken,
+        user: provider.wallet.publicKey,
+        userToken,
+        systemProgram: web3.SystemProgram.programId,
+        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+      })
+      .signers([questAccount])
+      .rpc();
 
-  //   console.log(`tx: ${tx}, quest: ${questAccount.publicKey}`);
-  //   accountAddress = questAccount.publicKey;
+    console.log(`tx: ${tx}, quest: ${questAccount.publicKey}`);
+    accountAddress = questAccount.publicKey;
 
-  //   const questAccountData = await program.account.quest.fetch(
-  //     questAccount.publicKey
-  //   );
-  //   console.log(`con cac: ${questAccountData.title}`);
-  // });
+    const questAccountData = await program.account.quest.fetch(
+      questAccount.publicKey
+    );
+    console.log(`con cac: ${questAccountData.title}`);
+  });
 
-  // it("Create Solution", async () => {
-  //   const questAccount = new web3.PublicKey(accountAddress);
+  it("Create Solution", async () => {
+    const questAccount = new web3.PublicKey(accountAddress);
 
-  //   const [solutionAccount, bump] = await web3.PublicKey.findProgramAddress(
-  //     [
-  //       Buffer.from("solution_account"),
-  //       provider.wallet.publicKey.toBuffer(),
-  //       questAccount.toBuffer(),
-  //     ],
-  //     programId
-  //   );
+    const [solutionAccount, bump] = await web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from("solution_account"),
+        provider.wallet.publicKey.toBuffer(),
+        questAccount.toBuffer(),
+      ],
+      programId
+    );
 
-  //   const tx = await program.methods
-  //     .createSolution("cmm beo", "link ne")
-  //     .accounts({
-  //       questAccount: questAccount,
-  //       solutionAccount: solutionAccount,
-  //       user: provider.wallet.publicKey,
-  //       systemProgram: web3.SystemProgram.programId,
-  //     })
-  //     .signers([])
-  //     .rpc();
+    const tx = await program.methods
+      .createSolution("cmm beo", "link ne")
+      .accounts({
+        questAccount: questAccount,
+        solutionAccount: solutionAccount,
+        user: provider.wallet.publicKey,
+        systemProgram: web3.SystemProgram.programId,
+      })
+      .signers([])
+      .rpc();
 
-  //   console.log(`tx: ${tx}, solution: ${solutionAccount}`);
-  //   solutionAddress = solutionAccount;
+    console.log(`tx: ${tx}, solution: ${solutionAccount}`);
+    solutionAddress = solutionAccount;
 
-  //   const solutionAccountData = await program.account.solution.fetch(
-  //     solutionAccount
-  //   );
-  //   console.log(`content solution: ${solutionAccountData.content}`);
-  // });
+    const solutionAccountData = await program.account.solution.fetch(
+      solutionAccount
+    );
+    console.log(`content solution: ${solutionAccountData.content}`);
+  });
 
-  // it("Test", async () => {
-  //   const questAccount = new web3.PublicKey(
-  //     "AqBHXiKHaqgjZGTBJpoiXen77vWmEFEpy2wzxiYbkZtX"
-  //   );
+  it("Update Solution", async () => {
+    const questAccount = new web3.PublicKey(
+      "AqBHXiKHaqgjZGTBJpoiXen77vWmEFEpy2wzxiYbkZtX"
+    );
 
-  //   const [solutionAccount, bump] = await web3.PublicKey.findProgramAddress(
-  //     [
-  //       Buffer.from("solution_account"),
-  //       provider.wallet.publicKey.toBuffer(),
-  //       questAccount.toBuffer(),
-  //     ],
-  //     programId
-  //   );
+    const [solutionAccount, bump] = await web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from("solution_account"),
+        provider.wallet.publicKey.toBuffer(),
+        questAccount.toBuffer(),
+      ],
+      programId
+    );
 
-  //   const tx = await program.methods
-  //     .updateSolution("cmm beo", "link ne")
-  //     .accounts({
-  //       questAccount: questAccount,
-  //       solutionAccount: solutionAccount,
-  //       user: provider.wallet.publicKey,
-  //     })
-  //     .signers([])
-  //     .rpc();
+    const tx = await program.methods
+      .updateSolution("cmm beo", "link ne")
+      .accounts({
+        questAccount: questAccount,
+        solutionAccount: solutionAccount,
+        user: provider.wallet.publicKey,
+      })
+      .signers([])
+      .rpc();
 
-  //   const solutionAccountData = await program.account.solution.fetch(
-  //     "DTEJ29yuqvQhHiafdguouM7dc8nC39nPzaRFZBT6iidV"
-  //   );
-  //   console.log(`content solution: ${solutionAccountData.content}`);
-  // });
+    const solutionAccountData = await program.account.solution.fetch(
+      "DTEJ29yuqvQhHiafdguouM7dc8nC39nPzaRFZBT6iidV"
+    );
+    console.log(`content solution: ${solutionAccountData.content}`);
+  });
 
   it("Fund Quest", async () => {
     const questAccount = new web3.PublicKey(
