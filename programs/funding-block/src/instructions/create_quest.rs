@@ -71,7 +71,7 @@ pub struct CreateQuest<'info> {
             &quest_account.key().to_bytes(),
         ],
         bump,
-        space = 32 + 8 + 1 + 8
+        space = 32 + 32 + 8 + 1 + 8
     )]
     pub funder_state: Account<'info, FunderState>,
 

@@ -18,29 +18,30 @@ pub fn vote(ctx: Context<Vote>) -> Result<()> {
     }
 
     solution_account.num_vote = solution_account.num_vote + 1;
+    fund_state.voted_solution = solution_account.key();
 
     fund_state.vote = true;
     Ok(())
 }
 
-pub fn un_vote(ctx: Context<Vote>) -> Result<()> {
-    let fund_state = &mut ctx.accounts.funder_state;
-    let solution_account = &mut ctx.accounts.solution_account;
+// pub fn un_vote(ctx: Context<Vote>) -> Result<()> {
+//     let fund_state = &mut ctx.accounts.funder_state;
+//     let solution_account = &mut ctx.accounts.solution_account;
 
-    if !fund_state.vote {
-        return err!(FundingBlockError::FunderNotVoted)
-    }
+//     if !fund_state.vote {
+//         return err!(FundingBlockError::FunderNotVoted)
+//     }
 
-    if solution_account.num_vote < 1 {
-        return err!(FundingBlockError::InvalidActionVote);
-    }
+//     if solution_account.num_vote < 1 {
+//         return err!(FundingBlockError::InvalidActionVote);
+//     }
 
-    solution_account.num_vote = solution_account.num_vote - 1;
+//     solution_account.num_vote = solution_account.num_vote - 1;
 
-    fund_state.vote = true;
+//     fund_state.vote = true;
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 #[derive(Accounts)]
 pub struct Vote<'info> {
@@ -48,7 +49,7 @@ pub struct Vote<'info> {
     quest_account: Account<'info, Quest>,
   
     #[account(
-        mut, 
+        mut,
         seeds = [
             b"funder_state",
             user.key().as_ref(),

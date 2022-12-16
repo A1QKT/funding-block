@@ -58,9 +58,9 @@ pub mod funding_block {
         instructions::vote(ctx)
     }
 
-    pub fn un_vote(ctx: Context<Vote>) -> Result<()> {
-        instructions::un_vote(ctx)
-    }
+    // pub fn un_vote(ctx: Context<Vote>) -> Result<()> {
+    //     instructions::un_vote(ctx)
+    // }
 
     pub fn transfer_rewarding(
         ctx: Context<TransferBack>,

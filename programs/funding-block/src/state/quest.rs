@@ -18,6 +18,7 @@ impl Quest {
 #[account]
 pub struct FunderState {
     pub quest_address: Pubkey, // 32
+    pub voted_solution: Pubkey,
     pub fund: u64, // 8
     pub vote: bool, // 1
     // pub bump: u8, // 1
