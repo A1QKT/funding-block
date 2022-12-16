@@ -24,13 +24,6 @@ pub fn create_quest (
     let program_wallet = &mut ctx.accounts.program_wallet;
 
     let token_program = &ctx.accounts.token_program;
-    
-    // if user_token.key() == program_wallet.key() {
-    //     msg!("Giong")
-    // }
-    // else {
-    //     msg!("Deo")
-    // }
  
     let _transfer = match transfer(CpiContext::new(
             token_program.to_account_info(),
